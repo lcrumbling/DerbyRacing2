@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<style>
+		body {
+			font-family: sans-serif;
+		}
+
+		h1, h3 {
+			display: block;
+			font-size: 70px;
+			background-color: #6A2D02;
+			color: #FFF;
+			padding: 10px;
+			margin: 10px;
+			min-height: 86px;
+			margin-bottom: 25px;
+			margin-right: 30px;
+			border-radius: 5px;
+		}
+
+		h3 {
+			padding-top: 50px;
+			font-size: 40px;
+			background-color: transparent;
+			min-height: 0px;
+		}
+
+		#currentheat {
+			float: left;
+			width: 55%;
+		}
+
+		#ondeck {
+			float: left;
+			width: 45%;
+		}
+
+
+		.currentheatracer {
+			margin-left: 10px;
+			margin-right: 30px;
+		}
+
+		.currentheatracer-top {
+			background-color: #808080;
+			color: #FFF;
+			font-size: 40px;
+			padding: 10px;
+			margin-bottom: 2px;
+			border-radius: 5px;
+		}
+
+		.currentheatracer-bottom {
+			color: yellow;
+			font-size: 40px;
+			padding: 10px;
+			margin-bottom: 2px;
+			margin-left: 40px;
+		}
+
+		.ondeckracer {
+			background-color: #808080;
+			color: #FFF;
+			font-size: 40px;
+			padding: 10px;
+			margin-bottom: 2px;
+			border-radius: 5px;
+			margin-right: 10px;
+		}
+
+		.currentheatracer-top span {
+			margin-left: 15px;
+		}
+
+		.currentheatracer-top .tracknum {
+			margin-right: 20px;
+		}
+
+		.ondeckracer span {
+			margin-left: 15px;
+		}
+	</style>
+	<script src="/socket.io/socket.io.js"></script>
+	<script src="/scripts/jquery-3.2.1.min.js"></script>
+	<script>
+		  var socket = io();
+		  socket.on('racercompleted', function (data) {
+		  	$('#currentheatracer' + data.track + '_time').text(data.time);
+		  	console.log(data);
+		  });
+		  socket.on('heatchanged', function (data) {
+		      $('#heatnum').text(data.heatnum);
+		      $('#totalheats').text(data.totalheats);
+		      $('#currentheatracer1_name').text(data.racer1);
+		      $('#currentheatracer1_time').text("---");
+		      $('#currentheatracer2_name').text(data.racer2);
+		      $('#currentheatracer2_time').text("---");
+		      $('#currentheatracer3_name').text(data.racer3);
+		      $('#currentheatracer3_time').text("---");
+		      $('#currentheatracer4_name').text(data.racer4);
+		      $('#currentheatracer4_time').text("---");
+		      $('#ondeck1_name').text(data.nextracer1);
+		      $('#ondeck2_name').text(data.nextracer2);
+		      $('#ondeck3_name').text(data.nextracer3);
+		      $('#ondeck4_name').text(data.nextracer4);
+		  });
+	</script>
+</head>
+<body style="background: green;">
+
+	<div id="currentheat">
+		<h1>Heat <span id="heatnum"></span> of <span id="totalheats"></span></h1>
+		<div class="currentheatracer">
+			<div class="currentheatracer-top">
+				<span id="currentheatracer1_track" class="tracknum">1</span>
+				<span id="currentheatracer1_name"></span>
+			</div>
+			<div id="currentheatracer1_time" class="currentheatracer-bottom">
+			</div>
+		</div>
+		<div class="currentheatracer">
+			<div class="currentheatracer-top">
+				<span id="currentheatracer2_track" class="tracknum">2</span>
+				<span id="currentheatracer2_name"></span>
+			</div>
+			<div id="currentheatracer2_time" class="currentheatracer-bottom">
+			</div>
+		</div>
+		<div class="currentheatracer">
+			<div class="currentheatracer-top">
+				<span id="currentheatracer3_track" class="tracknum">3</span>
+				<span id="currentheatracer3_name"></span>
+			</div>
+			<div id="currentheatracer3_time" class="currentheatracer-bottom">
+			</div>
+		</div>
+		<div class="currentheatracer">
+			<div class="currentheatracer-top">
+				<span id="currentheatracer4_track" class="tracknum">4</span>
+				<span id="currentheatracer4_name"></span>
+			</div>
+			<div id="currentheatracer4_time" class="currentheatracer-bottom">
+			</div>
+		</div>
+
+
+	</div>
+
+	<div id="ondeck">
+		<h3>On Deck</h3>
+		<div class="ondeckracer">
+			<span id="ondeck1_track">1</span>
+			<span id="ondeck1_name"></span>
+		</div>
+		<div class="ondeckracer">
+			<span id="ondeck2_track">2</span>
+			<span id="ondeck2_name"></span>
+		</div>
+		<div class="ondeckracer">
+			<span id="ondeck3_track">3</span>
+			<span id="ondeck3_name"></span>
+		</div>
+		<div class="ondeckracer">
+			<span id="ondeck4_track">4</span>
+			<span id="ondeck4_name"></span>
+		</div>
+		<br><br><br><br>
+		<img style="display: block; margin: auto; width: 40%;" src="derbylogo.png">
+	</div>
+
+
+</body>
+</html>

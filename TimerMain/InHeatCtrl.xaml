@@ -1,0 +1,109 @@
+﻿<UserControl
+    x:Class="TimerMain.InHeatCtrl"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:TimerMain"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    d:DesignHeight="450"
+    d:DesignWidth="800">
+    <UserControl.Resources>
+        <local:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
+        <local:InvertedBooleanToVisibilityConverter x:Key="InvertedBooleanToVisibilityConverter" />
+    </UserControl.Resources>
+
+    <Grid x:Name="gridCurrentHeat" Background="Green">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="10"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+        <Grid Grid.Row="0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+            <Border Background="#FF6A2D02" Grid.Row="0" Grid.Column="0" Grid.RowSpan="3">
+            </Border>
+            <TextBlock Grid.Row="0" Grid.Column="0" Margin="15,10,10,10" Text="{Binding HeatText}" FontSize="36"  Foreground="White" />
+            <ItemsControl Grid.Row="1" Grid.RowSpan="2" Grid.Column="0" ItemsSource="{Binding CurrentHeat.HeatTimes}">
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="*"/>
+                                <RowDefinition Height="*"/>
+                            </Grid.RowDefinitions>
+                            <Grid x:Name="racerItem" Background="{x:Null}" Grid.Row="0">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="4"/>
+                                    <ColumnDefinition Width="50"/>
+                                    <ColumnDefinition Width="4"/>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="4"/>
+                                </Grid.ColumnDefinitions>
+                                <Rectangle Grid.Column="1" Fill="#FF808080" HorizontalAlignment="Stretch" Height="Auto" Stroke="{x:Null}" VerticalAlignment="Stretch" Width="Auto"/>
+                                <TextBlock Grid.Column="1" Text="{Binding TrackNumber}" FontSize="24" FontWeight="Bold"  Margin="10,5,10,5" Foreground="White" VerticalAlignment="Top" ></TextBlock>
+                                <Rectangle Grid.Column="3" Fill="#FF808080" HorizontalAlignment="Stretch" Height="Auto" Stroke="{x:Null}" VerticalAlignment="Stretch"/>
+                                <TextBlock Grid.Column="3" Text="{Binding Racer.CarNumber}" FontSize="24" Foreground="White" Margin="10,5,10,5" VerticalAlignment="Top"/>
+                            </Grid>
+                            <Grid Grid.Row="1">
+                                <TextBlock Text="{Binding FormattedRaceTime}" FontSize="24" Foreground="Yellow" Margin="70,5,10,5" TextWrapping="Wrap" VerticalAlignment="Top"/>
+                            </Grid>
+                        </Grid>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+
+            </ItemsControl>
+            <Grid Grid.Row="0" Grid.Column="1">
+                <TextBlock FontSize="32" Foreground="White" Margin="30,10,10,0">
+                    <Run Text="On Deck (Next Heat)"/>
+                </TextBlock>
+            </Grid>
+            <ItemsControl x:Name="icNextHeat" Margin="10,0,10,0" Grid.Row="1" Grid.Column="1" ItemsSource="{Binding NextHeat.HeatTimes}">
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <Grid>
+                            <Grid x:Name="racerItem" Background="{x:Null}">
+                                <Rectangle x:Name="ItemBord" Fill="#FF808080" HorizontalAlignment="Stretch" Height="Auto" Margin="0" Stroke="{x:Null}" VerticalAlignment="Stretch" Width="Auto" Visibility="Visible"/>
+                                <TextBlock Text="{Binding TrackNumber}" FontSize="24" FontWeight="Bold"  Margin="15,5,0,10" Foreground="White" VerticalAlignment="Top" ></TextBlock>
+                                <TextBlock Text="{Binding Racer.CarNumber}" FontSize="24" Foreground="White" Margin="60,5,10,5" TextWrapping="Wrap" VerticalAlignment="Top"/>
+                            </Grid>
+                        </Grid>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+            <Button Grid.Column="1" Grid.Row="2" Margin="10" Padding="70,20" HorizontalAlignment="Center" FontSize="48" Content="Start Heat" Background="Yellow" Foreground="Black" 
+                    Command="{Binding SendStartRaceCommand, Mode=TwoWay}" Visibility="{Binding CurrentHeat.Completed, Converter={StaticResource InvertedBooleanToVisibilityConverter}, Mode=TwoWay}" />
+            <Button Grid.Column="1" Grid.Row="2" Margin="10" Padding="30,20" HorizontalAlignment="Center" FontSize="48" Content="Next Heat  &gt;&gt;" Background="Yellow" Foreground="Black" 
+                    Command="{Binding GoToNextHeatCommand, Mode=TwoWay}" Visibility="{Binding CurrentHeat.Completed, Converter={StaticResource BooleanToVisibilityConverter}, Mode=TwoWay}" />
+        </Grid>
+        <Grid Grid.Row="2">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+            <StackPanel Grid.Column="0" Orientation="Horizontal">
+                <Button Height="40" Content="&lt;&lt; Previous Heat" Command="{Binding GoBackToLastHeatCommand, Mode=TwoWay}" />
+                <Button Height="40" Content="Re-run Heat" Command="{Binding ResetHeatCommand, Mode=TwoWay}" Margin="10,0,0,0" />
+            </StackPanel>
+            <StackPanel Grid.Column="2" Orientation="Horizontal" Margin="0,0,20,0" HorizontalAlignment="Right">
+                <TextBlock VerticalAlignment="Center" Text="Time:" Margin="0,0,10,0" />
+                <TextBlock VerticalAlignment="Center" Text="{Binding CurrentTimerTime}" />
+                <TextBlock VerticalAlignment="Center" Text="s" />
+            </StackPanel>
+        </Grid>
+        <Grid VerticalAlignment="Center" HorizontalAlignment="Center" Visibility="{Binding CountdownVisible, Mode=TwoWay, Converter={StaticResource BooleanToVisibilityConverter}}">
+            <Border Background="#FF6A2D02" HorizontalAlignment="Center" Width="200" Height="200">
+                <TextBlock Text="{Binding CountdownText}" FontSize="72" VerticalAlignment="Center" HorizontalAlignment="Center" Foreground="White"></TextBlock>
+            </Border>
+        </Grid>
+    </Grid>
+</UserControl>

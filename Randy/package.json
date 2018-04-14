@@ -1,0 +1,23 @@
+{
+  "name": "hapi-test",
+  "version": "0.0.1",
+  "description": "Hapi Test",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/rg1220/hapi-test.git"
+  },
+  "author": "",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/rg1220/hapi-test/issues"
+  },
+  "homepage": "https://github.com/rg1220/hapi-test#readme",
+  "dependencies": {
+    "hapi": "^16.1.1"
+  }
+}

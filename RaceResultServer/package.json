@@ -1,0 +1,9 @@
+{
+  "name": "race-result-server",
+  "version": "0.0.0",
+  "description": "RaceResultServer",
+  "main": "server.js",
+  "author": {
+    "name": "Lynn"
+  }
+}

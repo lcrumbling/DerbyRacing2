@@ -1,0 +1,39 @@
+﻿<UserControl
+    x:Class="TimerMain.MainMenuCtrl"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:TimerMain"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    d:DesignHeight="450"
+    d:DesignWidth="800">
+
+    <Grid Name="gridEventMenu" Margin="10">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <TextBlock Grid.Row="0" Text="Pinewood Derby Racing Admin" FontSize="36" Margin="0,0,0,20" Foreground="Yellow"/>
+        <Grid Grid.Row="1">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Text="Select Event:" VerticalAlignment="Center" Foreground="Yellow" Margin="0,0,10,0" />
+                <ComboBox  ItemsSource="{Binding AllEvents}" 
+                        DisplayMemberPath="EventName"
+                        SelectedValuePath="EventID"
+                        SelectedItem="{Binding SelectedEvent, Mode=TwoWay}"
+                        Width="200" />
+                <Button Content="Load Event" Command="{Binding LoadEventCommand}" Margin="10,0,10,0" />
+                <Button Content="Create Event" Command="{Binding CreateEventCommand}" Margin="0,0,10,0" />
+                <Button Content="Delete Event" Command="{Binding DeleteEventCommand}" />
+
+            </StackPanel>
+            <Button Grid.Row="1" Content="Shutdown System" Command="{Binding ShutdownCommand}" VerticalAlignment="Bottom" HorizontalAlignment="Right"/>
+        </Grid>
+    </Grid>
+    
+</UserControl>
